@@ -447,7 +447,7 @@
                         android:gravity="bottom"
                         android:padding="10dp"
                         android:scrollbars="vertical"
-                        android:text="[PocketPal Server Pronto]\nSelecione um arquivo .gguf e clique em Iniciar."
+                        android:text="[MyLocal.AI Pronto]\nSelecione um arquivo .gguf e clique em Iniciar."
                         android:textColor="@color/text_code"
                         android:textSize="11sp" />
                 </LinearLayout>

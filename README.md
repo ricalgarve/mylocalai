@@ -1,7 +1,7 @@
-# 🚀 MyLocalAI (PocketPal Server Nativo)
+# 🚀 MyLocal.AI (Servidor de IA Local Android Nativo)
 
 <p align="center">
-  <img src="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" width="100" alt="MyLocalAI Logo" />
+  <img src="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" width="100" alt="MyLocal.AI Logo" />
 </p>
 
 <p align="center">
@@ -204,7 +204,7 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 ## 🌐 Como Usar a API OpenAI Local
 
 ### 1. Preparação no Celular
-1. Abra o app **PocketPal Server** no celular.
+1. Abra o app **MyLocal.AI** no celular.
 2. Toque em **"Selecionar Modelo (.gguf)"** e escolha um modelo salvo no aparelho (baixe arquivos GGUF leves do Hugging Face, por exemplo: `Qwen2.5-0.5B-Instruct-Q4_K_M.gguf` ou `Llama-3.2-1B-Instruct-Q4_K_M.gguf`).
 3. Ajuste a quantidade de Threads (o app pré-seleciona a quantidade ideal de núcleos rápidos da sua CPU).
 4. Clique em **"Iniciar Servidor Local"**.
@@ -222,7 +222,7 @@ curl http://<IP-DO-CELULAR>:8080/health
 ```json
 {
   "status": "online",
-  "app": "PocketPal AI Server",
+  "app": "MyLocal.AI Server",
   "backend": "ARMv8.2 + DotProd + i8mm (Ultra Rápido)",
   "model_loaded": true,
   "current_model": "Qwen2.5-0.5B-Instruct-Q4_K_M.gguf",

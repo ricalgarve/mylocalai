@@ -2,10 +2,10 @@
 chcp 65001 >nul
 setlocal enabledelayedexpansion
 
-title MyLocalAI - Compilador e Instalador Android
+title MyLocal.AI - Compilador e Instalador Android
 
 echo ==============================================================================
-echo                      MYLOCALAI - POCKETPAL SERVER
+echo                         MYLOCAL.AI - SERVIDOR LOCAL
 echo           Compilação e Instalação Automatizada para Android
 echo ==============================================================================
 echo.

@@ -58,7 +58,7 @@ class HttpApiServer(
         val statusJson = """
             {
                 "status": "online",
-                "app": "PocketPal AI Server",
+                "app": "MyLocal.AI Server",
                 "backend": "${LlamaEngine.loadedBackendName}",
                 "model_loaded": ${LlamaEngine.isModelLoaded},
                 "current_model": "${LlamaEngine.currentModelName}",

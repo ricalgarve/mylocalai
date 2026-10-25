@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PocketPal AI Server</string>
+    <string name="app_name">MyLocal.AI</string>
     <string name="title_server_status">Status do Servidor</string>
     <string name="status_stopped">Parado</string>
     <string name="status_running">Ativo e Escutando</string>
@@ -14,6 +14,6 @@
     <string name="btn_stop_server">Parar Servidor</string>
     <string name="title_endpoints">Endpoints Disponíveis:</string>
     <string name="title_logs">Logs em Tempo Real:</string>
-    <string name="notification_title">PocketPal AI Server Ativo</string>
+    <string name="notification_title">MyLocal.AI Server Ativo</string>
     <string name="notification_content">O modelo local está servindo a API na porta %d</string>
 </resources>

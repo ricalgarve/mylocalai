@@ -1,10 +1,10 @@
 #!/bin/bash
-# Script de teste rápido da API do PocketPal Server
+# Script de teste rápido da API do MyLocal.AI Server
 
 HOST="${1:-localhost:8080}"
 
 echo "========================================="
-echo "Testando PocketPal Server em: http://$HOST"
+echo "Testando MyLocal.AI Server em: http://$HOST"
 echo "========================================="
 
 echo -e "\n1. Verificando Healthcheck:"

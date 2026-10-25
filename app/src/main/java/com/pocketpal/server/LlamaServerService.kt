@@ -190,7 +190,7 @@ class LlamaServerService : Service() {
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("PocketPal AI Server Ativo")
+            .setContentTitle("MyLocal.AI Server Ativo")
             .setContentText("Servindo API OpenAI local na porta $port")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
@@ -203,7 +203,7 @@ class LlamaServerService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "PocketPal AI Background Server",
+                "MyLocal.AI Background Server",
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
                 description = "Notificação persistente enquanto o servidor de IA estiver rodando."
