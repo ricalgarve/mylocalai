@@ -28,7 +28,6 @@
 6. [Instalação das Dependências (Passo a Passo)](#-instalação-das-dependências-passo-a-passo)
 7. [Scripts Automatizados (Batch .bat e Shell .sh)](#-scripts-automatizados-batch-bat-e-shell-sh)
 8. [Como Usar a API OpenAI Local](#-como-usar-a-api-openai-local)
-9. [Como Enviar para o GitHub (Repositório Oficial)](#-como-enviar-para-o-github-repositório-oficial)
 
 ---
 
@@ -274,38 +273,6 @@ print()
 * **Base URL:** `http://<IP-DO-CELULAR>:8080/v1`
 * **API Key:** Qualquer texto (ex: `local`)
 * **Model Name:** Deixe em branco ou use `local-llama`
-
----
-
-## 🚀 Como Enviar para o GitHub (Repositório Oficial)
-
-O repositório oficial do projeto foi criado em:
-👉 **[https://github.com/ricalgarve/mylocalai.git](https://github.com/ricalgarve/mylocalai.git)**
-
-Para inicializar o Git na pasta do projeto e subir todo o código limpo (com `.gitignore` já configurado para evitar o envio acidental de arquivos pesados de compilação ou modelos de múltiplos gigabytes), execute os comandos abaixo no terminal dentro da pasta:
-
-```bash
-# 1. Inicializar o repositório Git local
-git init
-
-# 2. Configurar o branch principal como main
-git branch -M main
-
-# 3. Adicionar o repositório remoto do GitHub
-git remote add origin https://github.com/ricalgarve/mylocalai.git
-
-# 4. Adicionar todos os arquivos do projeto respeitando o .gitignore
-git add .
-
-# 5. Criar o primeiro commit
-git commit -m "feat: initial commit - MyLocalAI native android openai server"
-
-# 6. Enviar para o GitHub
-git push -u origin main
-```
-
-> [!NOTE]
-> Graças ao `.gitignore` configurado, arquivos de compilação intermediários (`.cxx`, `build/`, `.gradle`), APKs gerados e modelos `.gguf` pesados não serão enviados, mantendo seu repositório leve, limpo e com clone rápido.
 
 ---
 
