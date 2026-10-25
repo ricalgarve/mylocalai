@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">PocketPal AI Server</string>
+    <string name="title_server_status">Status do Servidor</string>
+    <string name="status_stopped">Parado</string>
+    <string name="status_running">Ativo e Escutando</string>
+    <string name="status_loading">Carregando Modelo...</string>
+    <string name="label_select_model">Selecionar Modelo (.gguf)</string>
+    <string name="no_model_selected">Nenhum arquivo .gguf selecionado</string>
+    <string name="btn_select_file">Procurar Arquivo GGUF</string>
+    <string name="label_port">Porta HTTP:</string>
+    <string name="label_threads">Threads CPU:</string>
+    <string name="label_context">Tamanho Contexto (tokens):</string>
+    <string name="btn_start_server">Iniciar Servidor Local</string>
+    <string name="btn_stop_server">Parar Servidor</string>
+    <string name="title_endpoints">Endpoints Disponíveis:</string>
+    <string name="title_logs">Logs em Tempo Real:</string>
+    <string name="notification_title">PocketPal AI Server Ativo</string>
+    <string name="notification_content">O modelo local está servindo a API na porta %d</string>
+</resources>

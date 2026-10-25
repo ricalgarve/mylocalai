@@ -1,0 +1,70 @@
+# ==============================================================================
+# Git Ignore - MyLocalAI / PocketPal Server (Android Native)
+# ==============================================================================
+
+# Built application files and packages
+*.apk
+*.aar
+*.aab
+PocketPalServer.apk
+
+# Android VM and bytecode files
+*.dex
+*.class
+
+# Generated build output directories
+bin/
+gen/
+out/
+build/
+app/build/
+.gradle/
+
+# Android NDK / CMake native build artifacts
+.cxx/
+app/.cxx/
+*.ninja
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+*.cmake.in
+
+# Local machine specific configurations
+local.properties
+
+# Android Studio, IntelliJ IDEA, and IDE configurations
+*.iml
+.idea/
+.vscode/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+*.ipr
+*.iws
+
+# Keystore and signing keys
+*.jks
+*.keystore
+
+# Large AI Model weights (prevent accidental multi-GB commits to Git)
+*.gguf
+*.bin
+*.safetensors
+*.onnx
+*.pt
+
+# Original extracted APKs and temporary reverse engineering artifacts
+xapk_extracted/
+*.xapk
+.agents/
+
+# Log and temporary files
+*.log
+scratch/
+tmp/
+*.tmp
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+Desktop.ini
