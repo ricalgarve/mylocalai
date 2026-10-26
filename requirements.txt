@@ -1,8 +1,0 @@
-# MyLocal.AI - Dependências Python (Opcionais)
-# O servidor Python básico (server.py) funciona com ZERO dependências (usando apenas a biblioteca padrão do Python).
-
-# Caso você queira carregar e rodar arquivos de modelos .gguf diretamente no processador/GPU do seu PC:
-llama-cpp-python>=0.2.80
-
-# SDK oficial da OpenAI (para scripts de teste):
-openai>=1.30.0
