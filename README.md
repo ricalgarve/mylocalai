@@ -28,6 +28,7 @@
 6. [Instalação das Dependências (Passo a Passo)](#-instalação-das-dependências-passo-a-passo)
 7. [Scripts Automatizados (Batch .bat e Shell .sh)](#-scripts-automatizados-batch-bat-e-shell-sh)
 8. [Como Usar a API OpenAI Local](#-como-usar-a-api-openai-local)
+9. [Guia de Arquitetura, Pastas e Binários .so (DOCS)](DOCS/ARQUITETURA_E_BINARIOS_SO.md)
 
 ---
 
