@@ -225,8 +225,9 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 1. Abra o app **MyLocal.AI** no celular.
 2. Toque em **"Selecionar Modelo (.gguf)"** e escolha um modelo salvo no aparelho (baixe arquivos GGUF leves do Hugging Face, por exemplo: `Qwen2.5-0.5B-Instruct-Q4_K_M.gguf` ou `Llama-3.2-1B-Instruct-Q4_K_M.gguf`).
 3. Ajuste a quantidade de Threads (o app pré-seleciona a quantidade ideal de núcleos rápidos da sua CPU).
-4. Clique em **"Iniciar Servidor Local"**.
-5. Observe o endereço IP exibido na tela (ex: `http://192.168.1.105:8080`).
+4. *(Opcional)* Defina um **Token de Autenticação API** ou clique em **"Gerar Token"** (ex: `sk-local-abc123xyz`) para proteger suas chamadas HTTP.
+5. Clique em **"Iniciar Servidor Local"**.
+6. Observe os endereços exibidos na tela e use o botão **"📋 Copiar cURL"** para copiar a requisição pronta direto para a área de transferência.
 
 ---
 
@@ -245,14 +246,17 @@ curl http://<IP-DO-CELULAR>:8080/health
   "model_loaded": true,
   "current_model": "Qwen2.5-0.5B-Instruct-Q4_K_M.gguf",
   "think_disabled": true,
-  "stream_disabled": false
+  "stream_disabled": false,
+  "auth_required": false
 }
 ```
 
 #### B. Requisição com Streaming via cURL
+Se tiver configurado um Token de Autenticação, inclua `-H "Authorization: Bearer <seu-token>"`:
 ```bash
 curl -N -X POST "http://<IP-DO-CELULAR>:8080/v1/chat/completions" \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer sk-local-exemplo" \
   -d '{
     "messages": [
       {"role": "system", "content": "Você é um assistente técnico conciso."},
@@ -270,7 +274,7 @@ from openai import OpenAI
 
 client = OpenAI(
     base_url="http://<IP-DO-CELULAR>:8080/v1",
-    api_key="nao-necessario"
+    api_key="sk-local-exemplo"  # Ou "nao-necessario" se não definiu token no app
 )
 
 response = client.chat.completions.create(

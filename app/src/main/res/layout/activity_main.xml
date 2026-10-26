@@ -259,6 +259,55 @@
                         android:textColor="@color/text_primary"
                         android:textSize="14sp" />
 
+                    <!-- API Bearer Token (Optional Security) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="🔒 Token de Autenticação API (Opcional)"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/btnGenerateToken"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="Gerar Token"
+                            android:textColor="@color/primary_accent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/etApiToken"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_log"
+                        android:hint="Deixe vazio (público) ou defina um token"
+                        android:textColorHint="@color/text_secondary"
+                        android:inputType="textVisiblePassword"
+                        android:padding="8dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="3dp"
+                        android:text="Se preenchido, requisições exigirão o cabeçalho 'Authorization: Bearer &lt;token&gt;'."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="10sp" />
+
                     <!-- Divider -->
                     <View
                         android:layout_width="match_parent"
@@ -390,11 +439,42 @@
                         android:textColor="@color/text_code"
                         android:textSize="12sp" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Exemplo de Requisição (cURL):"
+                            android:textColor="@color/text_primary"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/btnCopyCurl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_log"
+                            android:paddingStart="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="4dp"
+                            android:text="📋 Copiar cURL"
+                            android:textColor="@color/primary_accent"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/tvCurlSample"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="6dp"
                         android:background="@drawable/bg_log"
                         android:fontFamily="monospace"
                         android:padding="10dp"
@@ -437,19 +517,27 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tvLogs"
+                    <androidx.core.widget.NestedScrollView
+                        android:id="@+id/scrollLogs"
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
+                        android:layout_height="200dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_log"
-                        android:fontFamily="monospace"
-                        android:gravity="bottom"
-                        android:padding="10dp"
-                        android:scrollbars="vertical"
-                        android:text="[MyLocal.AI Pronto]\nSelecione um arquivo .gguf e clique em Iniciar."
-                        android:textColor="@color/text_code"
-                        android:textSize="11sp" />
+                        android:fillViewport="true"
+                        android:fadeScrollbars="false"
+                        android:scrollbars="vertical">
+
+                        <TextView
+                            android:id="@+id/tvLogs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:padding="10dp"
+                            android:textIsSelectable="true"
+                            android:text="[MyLocal.AI Pronto]\nSelecione um arquivo .gguf e clique em Iniciar."
+                            android:textColor="@color/text_code"
+                            android:textSize="11sp" />
+                    </androidx.core.widget.NestedScrollView>
                 </LinearLayout>
 
             </LinearLayout>

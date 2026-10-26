@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets
 
 class HttpApiServer(
     port: Int,
+    private val apiToken: String? = null,
     private val onLog: (String) -> Unit
 ) : NanoHTTPD("0.0.0.0", port) {
 
@@ -33,6 +34,18 @@ class HttpApiServer(
             return response
         }
 
+        // Validate Bearer Token authorization if token is set
+        if (!isAuthorized(session)) {
+            onLog("Acesso negado (401 Unauthorized) em $uri")
+            val resp = newFixedLengthResponse(
+                Response.Status.UNAUTHORIZED,
+                "application/json",
+                "{\"error\": {\"message\": \"Chave de API / Bearer Token ausente ou inválido.\", \"type\": \"invalid_request_error\", \"code\": \"invalid_api_key\"}}"
+            )
+            addCorsHeaders(resp)
+            return resp
+        }
+
         return try {
             when {
                 uri == "/v1/models" && method == Method.GET -> handleGetModels()
@@ -54,6 +67,21 @@ class HttpApiServer(
         }
     }
 
+    private fun isAuthorized(session: IHTTPSession): Boolean {
+        val requiredToken = apiToken?.trim() ?: return true
+        if (requiredToken.isEmpty()) return true
+
+        // NanoHTTPD normalizes header keys to lowercase
+        val authHeader = session.headers["authorization"]
+            ?: session.headers["Authorization"]
+            ?: session.headers["x-api-key"]
+            ?: session.headers["X-Api-Key"]
+            ?: ""
+
+        val token = authHeader.removePrefix("Bearer ").removePrefix("bearer ").trim()
+        return token == requiredToken
+    }
+
     private fun handleHealth(): Response {
         val statusJson = """
             {
@@ -63,7 +91,8 @@ class HttpApiServer(
                 "model_loaded": ${LlamaEngine.isModelLoaded},
                 "current_model": "${LlamaEngine.currentModelName}",
                 "think_disabled": ${LlamaEngine.isThinkDisabled},
-                "stream_disabled": ${LlamaEngine.isStreamDisabled}
+                "stream_disabled": ${LlamaEngine.isStreamDisabled},
+                "auth_required": ${!apiToken.isNullOrBlank()}
             }
         """.trimIndent()
         val resp = newFixedLengthResponse(Response.Status.OK, "application/json", statusJson)

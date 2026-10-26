@@ -36,6 +36,7 @@ class LlamaServerService : Service() {
         const val EXTRA_CTX = "EXTRA_CTX"
         const val EXTRA_DISABLE_THINK = "EXTRA_DISABLE_THINK"
         const val EXTRA_DISABLE_STREAM = "EXTRA_DISABLE_STREAM"
+        const val EXTRA_API_TOKEN = "EXTRA_API_TOKEN"
 
         var isRunning: Boolean = false
             private set
@@ -87,6 +88,7 @@ class LlamaServerService : Service() {
             val contextSize = intent.getIntExtra(EXTRA_CTX, 2048)
             val disableThink = intent.getBooleanExtra(EXTRA_DISABLE_THINK, true)
             val disableStream = intent.getBooleanExtra(EXTRA_DISABLE_STREAM, false)
+            val apiToken = intent.getStringExtra(EXTRA_API_TOKEN)
 
             LlamaEngine.isThinkDisabled = disableThink
             LlamaEngine.isStreamDisabled = disableStream
@@ -106,7 +108,7 @@ class LlamaServerService : Service() {
                 }
             }
 
-            startServer(modelPath, port, threads, contextSize, disableThink, disableStream)
+            startServer(modelPath, port, threads, contextSize, disableThink, disableStream, apiToken)
         } else if (action == ACTION_STOP) {
             stopServer()
             stopForeground(STOP_FOREGROUND_REMOVE)
@@ -122,7 +124,8 @@ class LlamaServerService : Service() {
         threads: Int,
         contextSize: Int,
         disableThink: Boolean,
-        disableStream: Boolean
+        disableStream: Boolean,
+        apiToken: String?
     ) {
         currentPort = port
         isRunning = true
@@ -134,6 +137,11 @@ class LlamaServerService : Service() {
                 LlamaEngine.initBackend()
                 log("Backend ativo: ${LlamaEngine.loadedBackendName}")
                 log("Opções: Think Desabilitado = $disableThink | Stream Desabilitado = $disableStream")
+                if (!apiToken.isNullOrBlank()) {
+                    log("Segurança: Autenticação por Bearer Token ATIVADA.")
+                } else {
+                    log("Segurança: Servidor em modo aberto (sem autenticação de token).")
+                }
 
                 log("Carregando modelo GGUF ($threads threads, ctx: $contextSize)...")
                 val loaded = LlamaEngine.loadModel(modelPath, threads, contextSize, gpuLayers = 0)
@@ -144,7 +152,7 @@ class LlamaServerService : Service() {
                 }
                 log("Modelo carregado com sucesso! (${LlamaEngine.currentModelName})")
 
-                server = HttpApiServer(port) { logMessage ->
+                server = HttpApiServer(port, apiToken) { logMessage ->
                     log(logMessage)
                 }
                 server?.start()

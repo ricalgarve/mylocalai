@@ -1,6 +1,8 @@
 package com.pocketpal.server
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,6 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -79,6 +82,21 @@ class MainActivity : AppCompatActivity() {
             LlamaEngine.isStreamDisabled = isChecked
         }
 
+        // Load saved API token from preferences
+        val prefs = getSharedPreferences("MyLocalAiPrefs", Context.MODE_PRIVATE)
+        binding.etApiToken.setText(prefs.getString("api_token", ""))
+
+        // Ensure finger scrolling inside log view is not intercepted by parent NestedScrollView
+        val logTouchListener = View.OnTouchListener { v, event ->
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_CANCEL) {
+                v.parent.requestDisallowInterceptTouchEvent(false)
+            }
+            false
+        }
+        binding.scrollLogs.setOnTouchListener(logTouchListener)
+        binding.tvLogs.setOnTouchListener(logTouchListener)
+
         checkPermissions()
         setupListeners()
         setupChat()
@@ -89,6 +107,9 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 val current = binding.tvLogs.text.toString()
                 binding.tvLogs.text = "$current\n$logLine"
+                binding.scrollLogs.post {
+                    binding.scrollLogs.fullScroll(View.FOCUS_DOWN)
+                }
             }
         }
 
@@ -110,6 +131,23 @@ class MainActivity : AppCompatActivity() {
         binding.btnSelectModel.setOnClickListener {
             filePickerLauncher.launch(arrayOf("*/*"))
         }
+
+        binding.btnGenerateToken.setOnClickListener {
+            val generatedToken = "sk-local-" + java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 12)
+            binding.etApiToken.setText(generatedToken)
+            Toast.makeText(this, "Novo token gerado!", Toast.LENGTH_SHORT).show()
+        }
+
+        // Copy cURL sample to clipboard
+        val copyCurlAction = View.OnClickListener {
+            val curlText = binding.tvCurlSample.text.toString()
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("cURL Sample", curlText)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "cURL copiado para a área de transferência!", Toast.LENGTH_SHORT).show()
+        }
+        binding.btnCopyCurl.setOnClickListener(copyCurlAction)
+        binding.tvCurlSample.setOnClickListener(copyCurlAction)
 
         binding.btnToggleServer.setOnClickListener {
             if (LlamaServerService.isRunning) {
@@ -426,6 +464,12 @@ class MainActivity : AppCompatActivity() {
         val contextSize = binding.etContextSize.text.toString().toIntOrNull() ?: 2048
         val disableThink = binding.swDisableThink.isChecked
         val disableStream = binding.swDisableStream.isChecked
+        val apiToken = binding.etApiToken.text.toString().trim()
+
+        // Persist token in SharedPreferences
+        getSharedPreferences("MyLocalAiPrefs", Context.MODE_PRIVATE).edit()
+            .putString("api_token", apiToken)
+            .apply()
 
         LlamaEngine.isThinkDisabled = disableThink
         LlamaEngine.isStreamDisabled = disableStream
@@ -438,6 +482,7 @@ class MainActivity : AppCompatActivity() {
             putExtra(LlamaServerService.EXTRA_CTX, contextSize)
             putExtra(LlamaServerService.EXTRA_DISABLE_THINK, disableThink)
             putExtra(LlamaServerService.EXTRA_DISABLE_STREAM, disableStream)
+            putExtra(LlamaServerService.EXTRA_API_TOKEN, apiToken)
         }
 
         try {
@@ -464,6 +509,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateUIState(isRunning: Boolean) {
         val port = binding.etPort.text.toString().toIntOrNull() ?: 8080
         val ip = getDeviceIpAddress()
+        val apiToken = binding.etApiToken.text.toString().trim()
 
         if (isRunning) {
             binding.tvStatusBadge.text = getString(R.string.status_running)
@@ -474,14 +520,18 @@ class MainActivity : AppCompatActivity() {
             binding.cardEndpoints.visibility = View.VISIBLE
             binding.tvEndpointLocal.text = "Localhost: http://localhost:$port/v1/chat/completions"
             binding.tvEndpointLan.text = "Rede Wi-Fi: http://$ip:$port/v1/chat/completions"
+
+            val authHeader = if (apiToken.isNotEmpty()) "  -H \"Authorization: Bearer $apiToken\" \\\n" else ""
             binding.tvCurlSample.text = """curl http://$ip:$port/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"messages":[{"role":"user","content":"Olá!"}],"stream":true}'"""
+${authHeader}  -d '{"messages":[{"role":"user","content":"Olá!"}],"stream":true}'"""
 
             binding.btnSelectModel.isEnabled = false
             binding.etPort.isEnabled = false
             binding.etThreads.isEnabled = false
             binding.etContextSize.isEnabled = false
+            binding.etApiToken.isEnabled = false
+            binding.btnGenerateToken.isEnabled = false
             binding.swDisableThink.isEnabled = false
             binding.swDisableStream.isEnabled = false
             binding.tvBackendInfo.text = LlamaEngine.loadedBackendName
@@ -497,6 +547,8 @@ class MainActivity : AppCompatActivity() {
             binding.etPort.isEnabled = true
             binding.etThreads.isEnabled = true
             binding.etContextSize.isEnabled = true
+            binding.etApiToken.isEnabled = true
+            binding.btnGenerateToken.isEnabled = true
             binding.swDisableThink.isEnabled = true
             binding.swDisableStream.isEnabled = true
             binding.tvBackendInfo.text = LlamaEngine.loadedBackendName
