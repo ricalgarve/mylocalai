@@ -160,6 +160,25 @@ Adotar uma IA rodando em um servidor local compatível com a API da OpenAI ofere
 5. Clique em **Apply** e aguarde o download e instalação automática.
 6. Certifique-se de que o seu JDK está configurado para a versão 17 em **Build, Execution, Deployment ➔ Build Tools ➔ Gradle ➔ Gradle JDK**.
 
+### Configuração da Variável de Ambiente `JAVA_HOME` (Para Terminal e Scripts .bat/.sh)
+
+Se você for compilar via terminal ou usar o script `build_and_install.bat`, certifique-se de que a variável de ambiente `JAVA_HOME` aponta para a instalação do JDK 17:
+
+* **Windows (PowerShell):**
+  ```powershell
+  # Instalar JDK 17 via winget (se ainda não tiver)
+  winget install EclipseAdoptium.Temurin.17.JDK
+
+  # Definir a variável JAVA_HOME permanentemente no usuário
+  [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Eclipse Adoptium\jdk-17.0.20.101-hotspot", "User")
+  ```
+
+* **Linux (Ubuntu / Debian):**
+  ```bash
+  sudo apt install openjdk-17-jdk
+  echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.bashrc
+  source ~/.bashrc
+  ```
 ---
 
 ## ⚡ Scripts Automatizados (Batch .bat e Shell .sh)

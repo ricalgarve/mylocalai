@@ -10,7 +10,20 @@ echo           Compilação e Instalação Automatizada para Android
 echo ==============================================================================
 echo.
 
-:: 1. Verificar Java (JDK 17 recomendado)
+:: 1. Verificar e priorizar Java (JDK 17 recomendado)
+if not defined JAVA_HOME (
+    for /f "tokens=2,*" %%a in ('reg query "HKCU\Environment" /v JAVA_HOME 2^>nul ^| findstr /i "JAVA_HOME"') do (
+        set "JAVA_HOME=%%b"
+    )
+)
+if not defined JAVA_HOME (
+    for /f "tokens=2,*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v JAVA_HOME 2^>nul ^| findstr /i "JAVA_HOME"') do (
+        set "JAVA_HOME=%%b"
+    )
+)
+if defined JAVA_HOME (
+    set "PATH=%JAVA_HOME%\bin;%PATH%"
+)
 echo [*] Verificando instalação do Java...
 where java >nul 2>nul
 if %errorlevel% neq 0 (
